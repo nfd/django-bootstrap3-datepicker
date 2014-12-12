@@ -1,28 +1,33 @@
-# django-bootstrap3-datepicker
+django-bootstrap3-datepicker
+============================
 
 This package is a fork of django-bootstrap3-datetimepicker v2.3, available here:
 
-[https://github.com/nkunihiko/django-bootstrap3-datetimepicker](https://github.com/nkunihiko/django-bootstrap3-datetimepicker)
+<https://github.com/nkunihiko/django-bootstrap3-datetimepicker>
 
 Where the above uses the Bootstrap v3 datetimepicker, this package uses Bootstrap v3 datepicker widget version 1.3.0, provided by the following project:
 
-[https://github.com/eternicode/bootstrap-datepicker](https://github.com/eternicode/bootstrap-datepicker)
+<https://github.com/eternicode/bootstrap-datepicker>
 
 The correct formatting options for dates can be found here:
 
-[https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior](https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior)
+<https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior>
 
 It has only been tested with Bootstrap3.
 
-## Install
+Install
+-------
 
 -  Run ``pip install django-bootstrap3-datepicker``
 -  Add ``'bootstrap3_datepicker'`` to your ``INSTALLED_APPS``
 
-## Example
+Example
+-------
 
 forms.py
         
+::
+
     from django import forms
 
     from bootstrap3_datepicker.fields import DatePickerField
@@ -61,13 +66,15 @@ forms.py
         date_7 = DatePickerField(input_formats=["%B %Y"],
                                  picker_options={"minViewMode": "months"})
 
-The `DatePickerInput` provides the integration with the JavaScript datepicker - the `options` specified will be passed directly to the JavaScript datepicker. The available `options` are explained in the following documents:
+The ``DatePickerInput`` provides the integration with the JavaScript datepicker - the ``options`` specified will be passed directly to the JavaScript datepicker. The available ``options`` are explained in the following documents:
 
-[http://bootstrap-datepicker.readthedocs.org/en/release/options.html](http://bootstrap-datepicker.readthedocs.org/en/release/options.html)
+<http://bootstrap-datepicker.readthedocs.org/en/release/options.html>
 
-The `DatePickerField` has been provided as a utility for a common usage. When the `DatePickerInput` is specified as a widget on a `DateField` and a non-standard date format is required, the `format` for the JavaScript datapicker and `input_formats` for the `DateField` itself should both be specified and match. On the `DatePickerField` the `input_formats` provides both the display and decode formats. The `picker_options` are passed directly to the JavaScript datepicker.
+The ``DatePickerField`` has been provided as a utility for a common usage. When the ``DatePickerInput`` is specified as a widget on a ``DateField`` and a non-standard date format is required, the ``format`` for the JavaScript datapicker and ``input_formats`` for the ``DateField`` itself should both be specified and match. On the ``DatePickerField`` the ``input_formats`` provides both the display and decode formats. The ``picker_options`` are passed directly to the JavaScript datepicker.
 
 template.html
+
+::
 
     <!DOCTYPE html>
     <html>
@@ -84,7 +91,7 @@ template.html
                 }
                 form {
                     margin: 40px auto;
-                    min-width: 200px;
+                    min-width: 201px;
                     max-width: 500px;
                 }
             </style>
@@ -115,15 +122,17 @@ template.html
         </body>
     </html>
 
-Bootstrap3 and jQuery have to be included along with `{{ form.media }}`.
+Bootstrap3 and jQuery have to be included along with ``{{ form.media }}``.
 
-## Release Notes
+Release Notes
+-------------
 
-### v0.1
+v0.1
 
 - Initial release.
 
-## Requirements
+Requirements
+------------
 
 -  Python >= 2.7
 -  Django >= 1.5
