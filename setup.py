@@ -8,7 +8,7 @@ setup(
                                           'static/bootstrap3_datepicker/js/*.js',
                                           'static/bootstrap3_datepicker/js/locales/*.js',]},
     include_package_data=True,
-    version='0.1',
+    version='0.2',
     description='Bootstrap3 compatible datepicker for Django projects.',
     long_description=open('README.rst').read(),
     author='James Hargreaves',
