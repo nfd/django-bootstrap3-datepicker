@@ -1,116 +1,130 @@
-django-bootstrap3-datetimepicker
-================================
+# django-bootstrap3-datepicker
 
-This package uses Bootstrap v3 datetimepicker widget version 2 provided by the following project:
- https://github.com/Eonasdan/bootstrap-datetimepicker
+This package is a fork of django-bootstrap3-datetimepicker v2.3, available here:
+
+[https://github.com/nkunihiko/django-bootstrap3-datetimepicker](https://github.com/nkunihiko/django-bootstrap3-datetimepicker)
+
+Where the above uses the Bootstrap v3 datetimepicker, this package uses Bootstrap v3 datepicker widget version 1.3.0, provided by the following project:
+
+[https://github.com/eternicode/bootstrap-datepicker](https://github.com/eternicode/bootstrap-datepicker)
 
 The correct formatting options for dates can be found here:
- http://momentjs.com/docs/
 
-It works only with Bootstrap3. If you are using Bootstrap2 in your Django project, 
-visit https://github.com/zokis/django-bootstrap-datetimepicker
+[https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior](https://docs.python.org/2/library/datetime.html#strftime-and-strptime-behavior)
+
+It has only been tested with Bootstrap3.
+
+## Install
+
+-  Run ``pip install django-bootstrap3-datepicker``
+-  Add ``'bootstrap3_datepicker'`` to your ``INSTALLED_APPS``
+
+## Example
+
+forms.py
+        
+    from django import forms
+
+    from bootstrap3_datepicker.fields import DatePickerField
+    from bootstrap3_datepicker.widgets import DatePickerInput
 
 
-Install
--------------------------------
-
-* Run `pip install django-bootstrap3-datetimepicker`
-* Add `'bootstrap3_datetime'` to your `INSTALLED_APPS`
-
-
-Example
---------------------------------
-
-###### forms.py
-	from bootstrap3_datetime.widgets import DateTimePicker
-	from django import forms
-	
     class ToDoForm(forms.Form):
-        todo = forms.CharField(
-            widget=forms.TextInput(attrs={"class": "form-control"}))
-        date = forms.DateField(
-            widget=DateTimePicker(options={"format": "YYYY-MM-DD",
-                                           "pickTime": False}))
-        reminder = forms.DateTimeField(
-            required=False,
-            widget=DateTimePicker(options={"format": "YYYY-MM-DD HH:mm",
-                                           "pickSeconds": False}))
+        # normal date field with no picker
+        date_1 = forms.DateField()
 
-The `options` will be passed to the JavaScript datetimepicker instance. 
-Available `options` are explained in the following documents:
+        # date field with default picker, uses locale default
+        # date format for display and decode
+        date_2 = forms.DateField(widget=DatePickerInput())
 
-* http://eonasdan.github.io/bootstrap-datetimepicker/
+        # date field with picker, uses specified format for display,
+        # decode is via locale default input_formats so format specified
+        # must match one
+        date_3 = forms.DateField(widget=DatePickerInput(format="%Y-%m-%d"))
 
-You don't need to set the `language` option, 
-because it will be set the current language of the thread automatically.
+        # date field with picker, uses specified format for display and
+        # input_formats for decode
+        date_4 = forms.DateField(input_formats=["%B %Y"],
+                                 widget=DatePickerInput(format="%B %Y",
+                                                        options={"minViewMode": "months"}))
 
-###### template.html
-	<!DOCTYPE html>
-	<html>
-	    <head>
-	        <link rel="stylesheet" 
-	              href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.css">
-	        <link rel="stylesheet" 
-	              href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.css">
-	        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js">
-	        </script>
-	        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.js">
-	        </script>
-	        {{ form.media }}
-	    </head>
-	    <body>
-	        <form method="post" role="form">
-	            {% for field in form.visible_fields %}
-	            <div id="div_{{ field.html_name }}" 
-	                 class="form-group{% if field.errors %} has-error{% endif %}">
-	                {{ field.label_tag }}
-	                {{ field }}
-	                <div class="text-muted pull-right">
-	                    <small>{{ field.help_text }}</small>
-	                </div>
-	                <div class="help-block">
-	                    {{ field.errors }}
-	                </div>
-	            </div>
-	            {% endfor %}
-	            {% for hidden in form.hidden_fields %}
-	                {{ hidden }}
-	            {% endfor %}
-	            {% csrf_token %}
-	            <div class="form-group">
-	                <input type="submit" value="Submit" class="btn btn-primary" />
-	            </div>
-	        </form>
-	    </body>
-	</html>
+        # date picker field, uses locale default date format for display
+        # and decode, same as date_2
+        date_5 = DatePickerField()
 
-Bootstrap3 and jQuery have to be included along with `{{ form.media }}`
+        # date field with picker, uses specified format for display and
+        # decode, same as date_3
+        date_6 = DatePickerField(input_formats=["%Y-%m-%d"])
 
+        # custom format with picker options specified, uses specified format
+        # for display and decode, same as date_4
+        date_7 = DatePickerField(input_formats=["%B %Y"],
+                                 picker_options={"minViewMode": "months"})
 
-Release Notes
--------------------------------
+The `DatePickerInput` provides the integration with the JavaScript datepicker - the `options` specified will be passed directly to the JavaScript datepicker. The available `options` are explained in the following documents:
 
-###### v2.3
+[http://bootstrap-datepicker.readthedocs.org/en/release/options.html](http://bootstrap-datepicker.readthedocs.org/en/release/options.html)
 
-* Updated bootstrap-datetimepicker.js to version 3.0
+The `DatePickerField` has been provided as a utility for a common usage. When the `DatePickerInput` is specified as a widget on a `DateField` and a non-standard date format is required, the `format` for the JavaScript datapicker and `input_formats` for the `DateField` itself should both be specified and match. On the `DatePickerField` the `input_formats` provides both the display and decode formats. The `picker_options` are passed directly to the JavaScript datepicker.
 
+template.html
 
-###### v2.2.3
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.css">
+            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.css">
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
+            <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.js"></script>
+            {{ form.media }}
+            <style>
+                body {
+                    margin: 40px auto;
+                    width: 90%;
+                }
+                form {
+                    margin: 40px auto;
+                    min-width: 200px;
+                    max-width: 500px;
+                }
+            </style>
+        </head>
+        <body>
+            <form method="post" role="form">
+                {% for field in form.visible_fields %}
+                <div id="div_{{ field.html_name }}" 
+                     class="form-group{% if field.errors %} has-error{% endif %}">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <div class="text-muted pull-right">
+                        <small>{{ field.help_text }}</small>
+                    </div>
+                    <div class="help-block">
+                        {{ field.errors }}
+                    </div>
+                </div>
+                {% endfor %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="submit" value="Validate" class="btn btn-primary" />
+                </div>
+            </form>
+        </body>
+    </html>
 
-* Updated bootstrap-datetimepicker.js to version 2.1.30
+Bootstrap3 and jQuery have to be included along with `{{ form.media }}`.
 
+## Release Notes
 
-###### v2.0.0
+### v0.1
 
-* Includes bootstrap-datetimepicker.js version 2.1.11 with moment.js
-* The format strings have changed due to using moment.js 
+- Initial release.
 
+## Requirements
 
-Requirements
--------------------------------
-
-* Python >= 2.4
-* Django >= 1.3
-* Bootstrap >= 3.0
-
-
+-  Python >= 2.7
+-  Django >= 1.5
+-  Bootstrap >= 3.0

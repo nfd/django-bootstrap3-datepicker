@@ -1,15 +1,35 @@
 from django import forms
 
-from bootstrap3_datetime.widgets import DateTimePicker
+from bootstrap3_datepicker.fields import DatePickerField
+from bootstrap3_datepicker.widgets import DatePickerInput
 
 
 class ToDoForm(forms.Form):
-    todo = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "form-control"}))
-    date = forms.DateField(
-        widget=DateTimePicker(options={"format": "YYYY-MM-DD",
-                                       "pickTime": False}))
-    reminder = forms.DateTimeField(
-        required=False,
-        widget=DateTimePicker(options={"format": "YYYY-MM-DD HH:mm",
-                                       "pickSeconds": False}))
+    # normal date field with no picker
+    date_1 = forms.DateField()
+
+    # date field with default picker, uses locale default date format for display and decode
+    date_2 = forms.DateField(widget=DatePickerInput())
+
+    # date field with picker, uses specified format for display, decode is via locale default input_formats so format
+    # specified must match one
+    date_3 = forms.DateField(widget=DatePickerInput(format="%Y-%m-%d"))
+
+    # date field with picker, uses specified format for display and input_formats for decode
+    date_4 = forms.DateField(input_formats=["%B %Y"],
+                             widget=DatePickerInput(format="%B %Y",
+                                                    options={"minViewMode": "months"}))
+
+    # date picker field, uses locale default date format for display and decode, same as date_2
+    date_5 = DatePickerField()
+
+    # date field with picker, uses specified format for display and decode, same as date_3
+    date_6 = DatePickerField(input_formats=["%Y-%m-%d"])
+
+    # custom format with picker options specified, uses specified format for display and decode, same as date_4
+    date_7 = DatePickerField(input_formats=["%B %Y"],
+                             picker_options={"minViewMode": "months"})
+
+    # just to prove a point, pass in a different widget (if you do this you've missed the point)
+    date_8 = DatePickerField(input_formats=["%d %B %Y"],
+                             widget=forms.TextInput())
