@@ -10,9 +10,9 @@ class DatePickerField(DateField):
         widget = widget or self.widget
 
         # create widget instance with format and options applied
-        if isinstance(widget, type) and input_formats:
-            assert isinstance(input_formats, list)
+        if isinstance(widget, type):
+            format = input_formats[0] if input_formats else None
 
-            widget = widget(format=input_formats[0], attrs=widget_attrs, options=widget_options)
+            widget = widget(format=format, attrs=widget_attrs, options=widget_options)
 
         super(DatePickerField, self).__init__(widget=widget, input_formats=input_formats, *args, **kwargs)

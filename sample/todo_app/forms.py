@@ -32,6 +32,10 @@ class ToDoForm(forms.Form):
                              widget_attrs={"placeholder": "Placeholder text"},
                              widget_options={"minViewMode": "months"})
 
+    # specifying attrs/options without input_formats didn't work, this is now fixed
+    date_8 = DatePickerField(widget_attrs={"placeholder": "Placeholder text"},
+                             widget_options={"autoclose": True})
+
     # just to prove a point, pass in a different widget (if you do this you've missed the point)
-    date_8 = DatePickerField(input_formats=["%d %B %Y"],
+    date_9 = DatePickerField(input_formats=["%d %B %Y"],
                              widget=forms.TextInput())
