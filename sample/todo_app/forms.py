@@ -18,6 +18,7 @@ class ToDoForm(forms.Form):
     # date field with picker, uses specified format for display and input_formats for decode
     date_4 = forms.DateField(input_formats=["%B %Y"],
                              widget=DatePickerInput(format="%B %Y",
+                                                    attrs={"placeholder": "Placeholder text"},
                                                     options={"minViewMode": "months"}))
 
     # date picker field, uses locale default date format for display and decode, same as date_2
@@ -28,7 +29,8 @@ class ToDoForm(forms.Form):
 
     # custom format with picker options specified, uses specified format for display and decode, same as date_4
     date_7 = DatePickerField(input_formats=["%B %Y"],
-                             picker_options={"minViewMode": "months"})
+                             widget_attrs={"placeholder": "Placeholder text"},
+                             widget_options={"minViewMode": "months"})
 
     # just to prove a point, pass in a different widget (if you do this you've missed the point)
     date_8 = DatePickerField(input_formats=["%d %B %Y"],

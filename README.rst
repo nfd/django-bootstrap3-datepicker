@@ -51,6 +51,7 @@ forms.py
         # input_formats for decode
         date_4 = forms.DateField(input_formats=["%B %Y"],
                                  widget=DatePickerInput(format="%B %Y",
+                                                        attrs={"placeholder": "Placeholder text"}))
                                                         options={"minViewMode": "months"}))
 
         # date picker field, uses locale default date format for display
@@ -61,16 +62,17 @@ forms.py
         # decode, same as date_3
         date_6 = DatePickerField(input_formats=["%Y-%m-%d"])
 
-        # custom format with picker options specified, uses specified format
+        # custom format with picker attrs and options specified, uses specified format
         # for display and decode, same as date_4
         date_7 = DatePickerField(input_formats=["%B %Y"],
-                                 picker_options={"minViewMode": "months"})
+                                 widget_attrs={"placeholder": "Placeholder text"})
+                                 widget_options={"minViewMode": "months"})
 
 The ``DatePickerInput`` provides the integration with the JavaScript datepicker - the ``options`` specified will be passed directly to the JavaScript datepicker. The available ``options`` are explained in the following documents:
 
 <http://bootstrap-datepicker.readthedocs.org/en/release/options.html>
 
-The ``DatePickerField`` has been provided as a utility for a common usage. When the ``DatePickerInput`` is specified as a widget on a ``DateField`` and a non-standard date format is required, the ``format`` for the JavaScript datapicker and ``input_formats`` for the ``DateField`` itself should both be specified and match. On the ``DatePickerField`` the ``input_formats`` provides both the display and decode formats. The ``picker_options`` are passed directly to the JavaScript datepicker.
+The ``DatePickerField`` has been provided as a utility for a common usage. When the ``DatePickerInput`` is specified as a widget on a ``DateField`` and a non-standard date format is required, the ``format`` for the JavaScript datapicker and ``input_formats`` for the ``DateField`` itself should both be specified and match. On the ``DatePickerField`` the ``input_formats`` provides both the display and decode formats. The ``widget_attrs`` are passed as attributes on the widget, the ``widget_options`` are passed directly to the JavaScript datepicker.
 
 template.html
 
