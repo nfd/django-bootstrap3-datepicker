@@ -129,6 +129,10 @@ Bootstrap3 and jQuery have to be included along with ``{{ form.media }}``.
 Release Notes
 -------------
 
+v0.3
+
+- Added support for widget attrs to DatePickerField.
+
 v0.2
 
 - Documentation fixes.
