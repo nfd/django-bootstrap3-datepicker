@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
-from django.forms.util import flatatt
 from django.forms.widgets import DateInput
 from django.utils import translation
 from django.utils.safestring import mark_safe
 from django.utils.html import conditional_escape
 
+try:
+    from django.forms.utils import flatatt
+except ImportError:
+    from django.forms.util import flatatt
 
 try:
     import json
@@ -96,7 +99,7 @@ class DatePickerInput(DateInput):
         self.icon_attrs = icon_attrs and icon_attrs.copy() or {}
         self.picker_id = self.div_attrs.get('id') or None
         # datepicker will not be initalized only when options is False
-        if not options:
+        if not options and options is not None:
             self.options = False
         else:
             self.options = options and options.copy() or {}
@@ -126,7 +129,7 @@ class DatePickerInput(DateInput):
         html = self.html_template % dict(div_attrs=flatatt(div_attrs),
                                          input_attrs=flatatt(input_attrs),
                                          icon_attrs=flatatt(icon_attrs))
-        if not self.options:
+        if not self.options and self.options is not None:
             js = ''
         else:
             js = self.js_template % dict(
