@@ -3,12 +3,15 @@ from setuptools import setup
 
 setup(
     name='django-bootstrap3-datepicker',
-    packages=['bootstrap3_datepicker',],
-    package_data={'bootstrap3_datepicker': ['static/bootstrap3_datepicker/css/*.css', 
-                                          'static/bootstrap3_datepicker/js/*.js',
-                                          'static/bootstrap3_datepicker/js/locales/*.js',]},
+    packages=['bootstrap3_datepicker'],
+    package_data={'bootstrap3_datepicker': [
+        'static/bootstrap3_datepicker/css/*.css',
+        'static/bootstrap3_datepicker/css/*.css.map',
+        'static/bootstrap3_datepicker/js/*.js',
+        'static/bootstrap3_datepicker/js/*.js.map',
+        'static/bootstrap3_datepicker/locales/*.js']},
     include_package_data=True,
-    version='0.3.1',
+    version='0.4.0',
     description='Bootstrap3 compatible datepicker for Django projects.',
     long_description=open('README.rst').read(),
     author='James Hargreaves',
