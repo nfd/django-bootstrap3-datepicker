@@ -5,7 +5,7 @@ This package is a fork of django-bootstrap3-datetimepicker v2.3, available here:
 
 <https://github.com/nkunihiko/django-bootstrap3-datetimepicker>
 
-Where the above uses the Bootstrap v3 datetimepicker, this package uses Bootstrap v3 datepicker widget version 1.3.0, provided by the following project:
+Where the above uses the Bootstrap v3 datetimepicker, this package uses Bootstrap v3 datepicker widget version 1.6.1, provided by the following project:
 
 <https://github.com/eternicode/bootstrap-datepicker>
 
@@ -128,6 +128,11 @@ Bootstrap3 and jQuery have to be included along with ``{{ form.media }}``.
 
 Release Notes
 -------------
+
+v0.4.0
+
+- Update to bootstrap-datepicker version 1.6.1
+- Use minified versions of the libraries (sourcemaps included)
 
 v0.3.1
 

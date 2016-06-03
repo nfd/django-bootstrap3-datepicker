@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
-from django.forms.util import flatatt
 from django.forms.widgets import DateInput
 from django.utils import translation
 from django.utils.safestring import mark_safe
 from django.utils.html import conditional_escape
 
+try:
+    from django.forms.utils import flatatt
+except ImportError:
+    from django.forms.util import flatatt
 
 try:
     import json
@@ -20,11 +23,11 @@ class DatePickerInput(DateInput):
     class Media:
         class JsFiles(object):
             def __iter__(self):
-                yield 'bootstrap3_datepicker/js/bootstrap-datepicker.js'
+                yield 'bootstrap3_datepicker/js/bootstrap-datepicker.min.js'
                 lang = translation.get_language()
                 if lang:
                     lang = lang.lower()
-                    #There is language name that length>2 *or* contains uppercase.
+                    # language names with length>2 *or* contains uppercase.
                     lang_map = {
                         'nl-be': 'nl-BE',
                         'pt-br': 'pt-BR',
@@ -35,18 +38,20 @@ class DatePickerInput(DateInput):
                     if len(lang) > 2:
                         lang = lang_map.get(lang, 'en-us')
                     if lang not in ('en', 'en-us'):
-                        yield 'bootstrap3_datepicker/js/locales/bootstrap-datepicker.%s.js' % (lang)
+                        yield ('bootstrap3_datepicker/locales/'
+                               'bootstrap-datepicker.%s.min.js') % (lang)
 
         js = JsFiles()
-        css = {'all': ('bootstrap3_datepicker/css/datepicker3.css',), }
+        css = {'all':
+               ('bootstrap3_datepicker/css/bootstrap-datepicker3.min.css',), }
 
     # http://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
     format_map = (('dd', r'%d'),
-                  #('d', r'%d'), # no analogous python datetime format
+                  # ('d', r'%d'), # no analogous python datetime format
                   ('DD', r'%A'),
                   ('D', r'%a'),
                   ('mm', r'%m'),
-                  #('m', r'%m'), # no analogous python datetime format
+                  # ('m', r'%m'), # no analogous python datetime format
                   ('MM', r'%B'),
                   ('M', r'%b'),
                   ('yyyy', r'%Y'),
@@ -67,7 +72,7 @@ class DatePickerInput(DateInput):
         </div>'''
 
     js_template = '''
-        <script>
+        <script type="text/javascript">
             (function(window) {
                 var callback = function() {
                     $(function(){$("#%(picker_id)s").datepicker(%(options)s);});
@@ -80,7 +85,8 @@ class DatePickerInput(DateInput):
             })(window);
         </script>'''
 
-    def __init__(self, attrs=None, format=None, options=None, div_attrs=None, icon_attrs=None):
+    def __init__(self, attrs=None, format=None, options=None,
+                 div_attrs=None, icon_attrs=None):
         if not icon_attrs:
             icon_attrs = {'class': 'glyphicon glyphicon-calendar'}
         if not div_attrs:
@@ -92,7 +98,8 @@ class DatePickerInput(DateInput):
         self.div_attrs = div_attrs and div_attrs.copy() or {}
         self.icon_attrs = icon_attrs and icon_attrs.copy() or {}
         self.picker_id = self.div_attrs.get('id') or None
-        if options == False:  # datepicker will not be initalized only when options is False
+        # datepicker will not be initalized only when options is False
+        if not options and options is not None:
             self.options = False
         else:
             self.options = options and options.copy() or {}
@@ -107,20 +114,25 @@ class DatePickerInput(DateInput):
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
             input_attrs['value'] = force_text(self._format_value(value))
-        input_attrs = dict([(key, conditional_escape(val)) for key, val in input_attrs.items()])  # python2.6 compatible
+        input_attrs = dict(
+            [(key, conditional_escape(val))
+             for key, val in input_attrs.items()])  # python2.6 compatible
         if not self.picker_id:
             self.picker_id = input_attrs.get('id', '') + '_picker'
         self.div_attrs['id'] = self.picker_id
         picker_id = conditional_escape(self.picker_id)
         div_attrs = dict(
-            [(key, conditional_escape(val)) for key, val in self.div_attrs.items()])  # python2.6 compatible
-        icon_attrs = dict([(key, conditional_escape(val)) for key, val in self.icon_attrs.items()])
+            [(key, conditional_escape(val))
+             for key, val in self.div_attrs.items()])  # python2.6 compatible
+        icon_attrs = dict([(key, conditional_escape(val))
+                           for key, val in self.icon_attrs.items()])
         html = self.html_template % dict(div_attrs=flatatt(div_attrs),
                                          input_attrs=flatatt(input_attrs),
                                          icon_attrs=flatatt(icon_attrs))
-        if not self.options:
+        if not self.options and self.options is not None:
             js = ''
         else:
-            js = self.js_template % dict(picker_id=picker_id,
-                                         options=json.dumps(self.options or {}))
+            js = self.js_template % dict(
+                picker_id=picker_id,
+                options=json.dumps(self.options or {}))
         return mark_safe(force_text(html + js))
