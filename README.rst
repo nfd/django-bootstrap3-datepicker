@@ -129,7 +129,7 @@ Bootstrap3 and jQuery have to be included along with ``{{ form.media }}``.
 Release Notes
 -------------
 
-v.4.0
+v0.4.0
 
 - Update to bootstrap-datepicker version 1.6.0
 - Use minified versions of the libraries (sourcemaps included)
