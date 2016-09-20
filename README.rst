@@ -129,6 +129,10 @@ Bootstrap3 and jQuery have to be included along with ``{{ form.media }}``.
 Release Notes
 -------------
 
+v0.4.1
+
+- Removed symlink in static directory and renamed 1.6.1 directory to replace it (pip doesn't publish symlinks as expected).
+
 v0.4.0
 
 - Update to bootstrap-datepicker version 1.6.1
