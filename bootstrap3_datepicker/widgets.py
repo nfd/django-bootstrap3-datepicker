@@ -16,7 +16,10 @@ except ImportError:
 try:
     from django.utils.encoding import force_unicode as force_text
 except ImportError:  # python3
-    from django.utils.encoding import force_text
+    try:
+        from django.utils.encoding import force_text
+    except ImportError:
+        from django.utils.encoding import force_str as force_text
 
 
 class DatePickerInput(DateInput):
@@ -40,6 +43,9 @@ class DatePickerInput(DateInput):
                     if lang not in ('en', 'en-us'):
                         yield ('bootstrap3_datepicker/locales/'
                                'bootstrap-datepicker.%s.min.js') % (lang)
+
+            def __getitem__(self, idx):
+                return list(self)[idx]
 
         js = JsFiles()
         css = {'all':
