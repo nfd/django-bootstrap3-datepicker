@@ -113,7 +113,7 @@ class DatePickerInput(DateInput):
 
             self.options['format'] = self.conv_date_format_py2js(self.format)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         if value is None:
             value = ''
         input_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
