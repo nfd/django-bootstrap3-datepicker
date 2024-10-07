@@ -476,6 +476,7 @@
 				this.picker.appendTo(this.o.container);
 			this.place();
 			this.picker.show();
+			this.showMode();
 			this._attachSecondaryEvents();
 			this._trigger('show');
 			if ((window.navigator.msMaxTouchPoints || 'ontouchstart' in document) && this.o.disableTouchKeyboard) {
